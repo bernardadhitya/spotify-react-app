@@ -1,5 +1,5 @@
 import scopes from './scopes';
-let SpotifyWebApi = require('spotify-web-api-node');
+var SpotifyWebApi = require('spotify-web-api-node');
 const express = require('express')
 
 const spotifyApi = new SpotifyWebApi({
@@ -7,25 +7,8 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: 'aad8b58f03ef4ca1bfd7318f07bbbd64',
   redirectUri: 'http://localhost:8888/callback'
 });
-
-let accessToken = '';
-
-const app = express();
-
-const getPlaylistTracks = async (playlistId) => {
-  const data = await spotifyApi.getPlaylistTracks(playlistId, {
-    offset: 1,
-    limit: 100,
-    fields: 'items'
-  })
-
-  const tracks = data.body.items.map(track_obj => {
-    const track = track_obj.track;
-    return track;
-  })
   
-  return tracks;
-}
+const app = express();
 
 const getUserPlaylists = async (userId) => {
   const data = await spotifyApi.getUserPlaylists(userId)
@@ -44,11 +27,26 @@ const getUserPlaylists = async (userId) => {
   return playlists;
 }
 
+const getPlaylistTracks = async (playlistId) => {
+  const data = await spotifyApi.getPlaylistTracks(playlistId, {
+    offset: 1,
+    limit: 100,
+    fields: 'items'
+  })
+
+  const tracks = data.body.items.map(track_obj => {
+    const track = track_obj.track;
+    return track;
+  })
+  
+  return tracks;
+}
+
 const getUserData = async () => {
   const data = await spotifyApi.getMe();
   return data;
 }
-
+  
 app.get('/login', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
@@ -78,7 +76,6 @@ app.get('/callback', (req, res) => {
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
       );
 
-      accessToken = access_token;
       res.send('Success! You can now close the window.');
 
       setInterval(async () => {
