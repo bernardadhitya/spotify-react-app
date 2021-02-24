@@ -1,4 +1,16 @@
+.login-page{
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .login-btn{
-  background-color: green;
-  padding: 10px;
+  background-color: #1db954;
+  padding: 4px;
+  cursor: pointer;
+  width: 300px;
+  margin: 0 auto;
+  border-radius: 40px;
 }
