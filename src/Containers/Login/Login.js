@@ -1,12 +1,8 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import './Login.css';
 import spotipuLogo from '../../Assets/spotipu-logo.png'
-import { Col, Container, Row } from 'react-bootstrap';
 
 const Login = () => {
-  let history = useHistory();
-
   const handleLogin = async () => {
     var win = window.open('http://localhost:8888/login', '_self');
     win.focus();

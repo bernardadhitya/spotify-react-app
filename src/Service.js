@@ -12,6 +12,27 @@ export const fetchUser = () => {
   )
 };
 
+export const fetchPlaylists = () => {
+  return (
+    axios.get(`${USER_API}/playlists`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => error.response)
+  )
+};
+
+export const fetchPlaylistTrack = (id) => {
+  return (
+    axios.get(`${USER_API}/playlists/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => error.response)
+  )
+};
+
+
 export const login = async () => {
   return (
     await axios.get(`${USER_API}/login`)
