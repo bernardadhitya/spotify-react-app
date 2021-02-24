@@ -12,6 +12,11 @@ let accessToken = '';
 
 const app = express();
 
+const getUserData = async () => {
+  const data = await spotifyApi.getMe();
+  return data;
+}
+
 app.get('/login', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
@@ -58,6 +63,16 @@ app.get('/callback', (req, res) => {
       res.send(`Error getting Tokens: ${error}`);
     });
 });
+
+app.get('/user', async (req, res) => {
+  try {
+    const user = await getUserData();
+    const { body: userData } = user;
+    res.status(200).send(userData);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
 
 app.listen(8888, () =>
   console.log(
