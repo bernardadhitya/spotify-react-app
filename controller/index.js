@@ -60,7 +60,6 @@ const getUserData = async () => {
   
 app.get('/login', (req, res) => {
   try {
-    res.status(200).send({token: accessToken});
     res.redirect(spotifyApi.createAuthorizeURL(scopes));
   } catch (error) {
     res.status(500).send(error);
@@ -94,7 +93,7 @@ app.get('/callback', (req, res) => {
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
       );
 
-      res.send('Success! You can now close the window.');
+      res.sendFile('./loginSuccess.html', {root: __dirname} );
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();

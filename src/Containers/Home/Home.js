@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUsers } from '../../Service';
+import { fetchUser } from '../../Service';
 
 const Home = () => {
-  const [users, setUsers] = useState('');
+  const [user, setUser] = useState('');
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetchUsers();
-        setUsers(response);
+        const response = await fetchUser();
+        setUser(response);
       } catch (err) {
         console.log(err);
       }
@@ -19,6 +19,7 @@ const Home = () => {
   return (
     <div>
       <h1>Test</h1>
+      <p>{JSON.stringify(user)}</p>
     </div>
   );
 };

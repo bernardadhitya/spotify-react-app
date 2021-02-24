@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
-const isLogin = () => {
+const isLoggedIn = () => {
   return !!localStorage.getItem('loggedIn');
 }
 
@@ -19,7 +19,7 @@ const PrivateRoute = ({component: AuthorizedComponent, ...parentProps}) => {
     <Route
       {...parentProps}
       render={(props) => (
-        isLogin()
+        isLoggedIn()
           ? (
             <>
               {renderAuthorizedComponent(AuthorizedComponent, props)}

@@ -1,25 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { fetchUsers, login } from '../../Service';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
   let history = useHistory();
-  const [users, setUsers] = useState('');
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetchUsers();
-        setUsers(response);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [])
 
   const handleLogin = async () => {
-    await login();
+    var win = window.open('http://localhost:8888/login', '_self');
+    win.focus();
     console.log('logged in');
     return history.push('/home');
   }

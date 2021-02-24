@@ -2,9 +2,9 @@ import axios from 'axios/index';
 
 const USER_API = `http://localhost:8888`;
 
-export const fetchUsers = () => {
+export const fetchUser = () => {
   return (
-    axios.get(`${USER_API}/users`)
+    axios.get(`${USER_API}/user`)
     .then((response) => {
       return response.data;
     })
@@ -12,10 +12,10 @@ export const fetchUsers = () => {
   )
 };
 
-export const login = () => {
+export const login = async () => {
   return (
-    axios.get(`${USER_API}/login`)
-    .then((response) => {
+    await axios.get(`${USER_API}/login`)
+    .then(() => {
       localStorage.setItem('loggedIn', 'true');
     })
     .catch((error) => error.response)
