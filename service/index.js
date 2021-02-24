@@ -12,6 +12,23 @@ let accessToken = '';
 
 const app = express();
 
+const getUserPlaylists = async (userId) => {
+  const data = await spotifyApi.getUserPlaylists(userId)
+
+  const { body: { items } } = data;
+
+  const playlists = items.map(playlist => {
+    const { id, name, images } = playlist;
+    return {
+      id,
+      name,
+      image: images[0].url
+    }
+  })
+
+  return playlists;
+}
+
 const getUserData = async () => {
   const data = await spotifyApi.getMe();
   return data;
@@ -69,6 +86,17 @@ app.get('/user', async (req, res) => {
     const user = await getUserData();
     const { body: userData } = user;
     res.status(200).send(userData);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
+
+app.get('/playlists', async (req, res) => {
+  try {
+    const user = await getUserData();
+    const { body: { id } } = user;
+    const playlist = await getUserPlaylists(id);
+    res.status(200).send(playlist);
   } catch (error) {
     res.status(500).send(error);
   }
