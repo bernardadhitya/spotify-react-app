@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 
 const isLogin = () => {
-  return true;
+  return !!localStorage.getItem('loggedIn');
 }
 
 const renderAuthorizedComponent = (AuthorizedComponent, props) => {
@@ -25,7 +25,7 @@ const PrivateRoute = ({component: AuthorizedComponent, ...parentProps}) => {
               {renderAuthorizedComponent(AuthorizedComponent, props)}
             </>
           )
-          : <Redirect to='/'/>
+          : <Redirect to='/login'/>
       )}
     />
   );

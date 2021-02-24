@@ -1,6 +1,6 @@
 import axios from 'axios/index';
 
-const USER_API = `http://localhost:8200`;
+const USER_API = `http://localhost:8888`;
 
 export const fetchUsers = () => {
   return (
@@ -11,3 +11,13 @@ export const fetchUsers = () => {
     .catch((error) => error.response)
   )
 };
+
+export const login = () => {
+  return (
+    axios.get(`${USER_API}/login`)
+    .then((response) => {
+      localStorage.setItem('loggedIn', 'true');
+    })
+    .catch((error) => error.response)
+  )
+}

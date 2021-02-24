@@ -9,6 +9,17 @@ const spotifyApi = new SpotifyWebApi({
 });
   
 const app = express();
+let accessToken = '';
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 const getUserPlaylists = async (userId) => {
   const data = await spotifyApi.getUserPlaylists(userId)
@@ -48,7 +59,12 @@ const getUserData = async () => {
 }
   
 app.get('/login', (req, res) => {
-  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  try {
+    res.status(200).send({token: accessToken});
+    res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
   
 app.get('/callback', (req, res) => {
@@ -71,6 +87,8 @@ app.get('/callback', (req, res) => {
 
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
+
+      accessToken = access_token;
 
       console.log(
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
