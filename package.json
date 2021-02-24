@@ -17,6 +17,7 @@
     "spotify-web-api-node": "^5.0.0"
   },
   "scripts": {
+    "start-service": "nodemon --exec babel-node ./service/index",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
