@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { fetchPlaylistTrack, deleteTrack } from '../../Service';
+import { fetchPlaylistTrack, deleteTrack, fetchUser } from '../../Service';
 import { Backdrop, Fade, Grid, Modal } from '@material-ui/core';
 import './Playlist.css';
 import spotipuLogo from '../../Assets/spotipu-logo.png';
 import { DeleteOutline } from '@material-ui/icons';
 
 const Playlist = (props) => {
-  const { location: { state: { userId, playlist } } } = props;
+  const { location: { state: { playlist } } } = props;
   const { playlistId, name, image, ownerName, ownerId } = playlist;
   const [tracks, setTracks] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState('');
   const [refresh, setRefresh] = useState(0);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     (async () => {
       try {
         const fetchedPlaylistTrack = await fetchPlaylistTrack(playlistId);
+        const fetchedUser = await fetchUser();
         setTracks(fetchedPlaylistTrack);
+        setUser(fetchedUser);
       } catch (err) {
         console.log(err);
       }
@@ -25,12 +28,14 @@ const Playlist = (props) => {
   }, [refresh]);
 
   const renderTrackCard = (id, name, images, artist, uri) => {
+    const { id: userId } = user;
+    console.log(images);
     return ownerId === userId ? (
       <Grid item
         xs={12} sm={6} lg={4}
       >
         <div className='track-card-wrapper'>
-          <img src={images[0].url} alt={name} height={100}/>
+          <img src={images.length > 0 ? images[0].url : image} alt={name} height={100}/>
           <div style={{width: '30px'}}></div>
           <div style={{marginRight: 'auto'}}>
             <p style={{marginBottom: 0}}>{name}</p>
@@ -50,7 +55,7 @@ const Playlist = (props) => {
         xs={12} sm={6} lg={4}
       >
         <div className='track-card-wrapper'>
-          <img src={image} alt={name} height={100}/>
+          <img src={images.length > 0 ? images[0].url : image} alt={name} height={100}/>
           <div style={{width: '30px'}}></div>
           <div>
             <p style={{marginBottom: 0}}>{name}</p>
@@ -90,7 +95,7 @@ const Playlist = (props) => {
     setRefresh(refresh + 1);
   }
 
-  return playlist ? (
+  return user ? (
     <div className='home-page'>
       <div style={{width: '100%'}}>
         <div style={{padding: 30}}>

@@ -10,6 +10,8 @@ const Home = () => {
   const [user, setUser] = useState(undefined);
   const [playlists, setPlaylists] = useState([]);
 
+  console.log(user);
+
   useEffect(() => {
     (async () => {
       try {
@@ -24,7 +26,6 @@ const Home = () => {
   }, [])
 
   const handlePlaylist = (playlist) => {
-    const { id: userId } = user;
     const {
       id: playlistId,
       name,
@@ -36,7 +37,7 @@ const Home = () => {
     } = playlist;
     history.push({
       pathname: '/playlist',
-      state: { userId, playlist: { playlistId, name, image, ownerName, ownerId } }
+      state: { playlist: { playlistId, name, image, ownerName, ownerId } }
     })
   }
 
@@ -46,7 +47,7 @@ const Home = () => {
   }
 
   const renderPlaylistCards = () => {
-    return playlists.map(playlist => {
+    return playlists.length > 0 ? playlists.map(playlist => {
       const { name, image, owner: { display_name: ownerName } } = playlist;
       return (
         <>
@@ -63,8 +64,10 @@ const Home = () => {
             </div>
           </Grid>
         </>
-      )
-    })
+      );
+    }) : (
+      <h3>No data available</h3>
+    )
   }
 
   return user ? (

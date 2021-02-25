@@ -8,7 +8,9 @@ export const fetchUser = () => {
     .then((response) => {
       return response.data;
     })
-    .catch((error) => error.response)
+    .catch((error) => {
+      return undefined;
+    })
   )
 };
 
