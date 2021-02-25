@@ -1,68 +1,44 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Spotipu
 
-## Available Scripts
+![](src/Assets/spotipu-logo.png)
 
-In the project directory, you can run:
+### 💡 About the App
+Spotipu is a simple React app that utilize Spotify's API to show user's playlist and tracks.
 
-### `npm start`
+### 📜 Instruction
+To start the application, please do the followings;
+1. Install the dependencies
+```
+npm install
+```
+2. Run the projects. There are two commands, `npm run start` to run the React app, and `npm run start-service` to run Express app
+```
+npm run start
+npm run start-service
+```
+3. The app can be accessed at;
+```
+http://localhost:3000/
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 👀 Preview
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+###### Login Page
+![Login Page](src/Assets/screenshots/login-1.png)
+User will be served with a simple login screen, which will redirect them to login with their Spotify account
 
-### `npm test`
+###### Home Page
+![Student View](src/Assets/screenshots/home-1.png)
+Once logged in, user is greeted with their name on top, followed with their email. Just below the user's informations, user can see their playlists. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###### Playlist Page
 
-### `npm run build`
+![Teacher View 1](src/Assets/screenshots/playlist-1.png)
+User can choose one of the playlists there, and they will see all the tracks in the playlist.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Teacher View 2](src/Assets/screenshots/playlist-2.png)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+In addition to viewing the tracks, user can delete tracks in the playlist. However, user can only delete tracks on the playlist they own, not playlists user follows.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### 👨🏻‍💻 Tech Stack
+Spotipu is fully built with React and Express
