@@ -32,18 +32,18 @@ const Home = () => {
 
   const renderPlaylistCards = () => {
     return playlists.map(playlist => {
-      const { id, name, image } = playlist;
+      const { id, name, image, owner: { display_name: ownerName } } = playlist;
       return (
         <>
           <Grid item
-            justify="center"
-            alignItems="center"
             xs={12} sm={6} lg={4}
           >
             <div className='playlist-card-wrapper' onClick={() => handlePlaylist(id)}>
+              <img src={image} alt={name} height={100}/>
+              <div style={{width: '30px'}}></div>
               <div>
-                <img src={image} alt={name} height={'200px'}/>
-                <p>{name}</p>
+                <p style={{marginBottom: 0}}>{name}</p>
+                <p style={{marginTop: 0, color: '#1db954'}}>{ownerName}</p>
               </div>
             </div>
           </Grid>
@@ -57,12 +57,20 @@ const Home = () => {
       <div style={{width: '100%'}}>
         <div style={{padding: 30}}>
           <img src={spotipuLogo} alt='logo' width={200}/>
-          <h1 style={{fontSize: 54}}>{`Hello, ${!!user ? user.display_name : ''}`}</h1>
-          <p>{`${!!user ? user.email : ''}`}</p>
+          <h1 style={{
+            fontSize: 54,
+            marginBottom: 0
+          }}>
+            {`Hello, ${!!user ? user.display_name : ''}`}
+          </h1>
+          <p style={{marginTop: 8}}>{`${!!user ? user.email : ''}`}</p>
+          <h2 style={{color: '#1db954', marginTop: 24}}>Your Playlist</h2>
         </div>
-        <Grid container spacing={2}>
-          { renderPlaylistCards() }
-        </Grid>
+        <div style={{paddingRight: 30, paddingLeft: 30}}>
+          <Grid container spacing={2}>
+            { renderPlaylistCards() }
+          </Grid>
+        </div>
       </div>
     </div>
   );

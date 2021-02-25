@@ -1,9 +1,4 @@
 @font-face{
-  font-family: 'galano-grotesque';
-  src: url('../../Assets/fonts/Galano\ Grotesque.otf')
-}
-
-@font-face{
   font-family: 'galano-grotesque-bold';
   src: url('../../Assets/fonts/Galano\ Grotesque\ Medium.otf')
 }
@@ -14,10 +9,8 @@
 }
 
 .playlist-card-wrapper{
-  margin: 10;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
   cursor: pointer;
+  background-color: #121212;
 }

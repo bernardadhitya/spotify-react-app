@@ -27,11 +27,12 @@ const getUserPlaylists = async (userId) => {
   const { body: { items } } = data;
 
   const playlists = items.map(playlist => {
-    const { id, name, images } = playlist;
+    const { id, name, images, owner } = playlist;
     return {
       id,
       name,
-      image: images[0].url
+      image: images[0].url,
+      owner
     }
   })
 
