@@ -1,8 +1,9 @@
+import { Grid } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { fetchPlaylists, fetchUser } from '../../Service';
 import './Home.css';
+import spotipuLogo from '../../Assets/spotipu-logo.png';
 
 const Home = () => {
   let history = useHistory();
@@ -34,10 +35,18 @@ const Home = () => {
       const { id, name, image } = playlist;
       return (
         <>
-          <div style={{margin: 10}} onClick={() => handlePlaylist(id)}>
-            <img src={image} alt={name} height={'200px'}/>
-            <p>{name}</p>
-          </div>
+          <Grid item
+            justify="center"
+            alignItems="center"
+            xs={12} sm={6} lg={4}
+          >
+            <div className='playlist-card-wrapper' onClick={() => handlePlaylist(id)}>
+              <div>
+                <img src={image} alt={name} height={'200px'}/>
+                <p>{name}</p>
+              </div>
+            </div>
+          </Grid>
         </>
       )
     })
@@ -46,11 +55,14 @@ const Home = () => {
   return (
     <div className='home-page'>
       <div style={{width: '100%'}}>
-        <h1>{`Hello, ${!!user ? user.display_name : ''}`}</h1>
-        <p>{`${!!user ? user.email : ''}`}</p>
-        <div style={{display: 'flex'}}>
-          { renderPlaylistCards() }
+        <div style={{padding: 30}}>
+          <img src={spotipuLogo} alt='logo' width={200}/>
+          <h1 style={{fontSize: 54}}>{`Hello, ${!!user ? user.display_name : ''}`}</h1>
+          <p>{`${!!user ? user.email : ''}`}</p>
         </div>
+        <Grid container spacing={2}>
+          { renderPlaylistCards() }
+        </Grid>
       </div>
     </div>
   );
