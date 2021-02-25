@@ -58,6 +58,11 @@ const getUserData = async () => {
   const data = await spotifyApi.getMe();
   return data;
 }
+
+const deleteTrack = async (trackId) => {
+  const deletedTrack = await spotifyApi.removeFromMySavedTracks(trackId);
+  return deletedTrack;
+}
   
 app.get('/login', (req, res) => {
   try {
@@ -137,6 +142,16 @@ app.get('/playlists/:id', async (req, res) => {
     const { id } = req.params;
     const playlist = await getPlaylistTracks(id);
     res.status(200).send(playlist);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
+
+app.delete('/playlists/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedTrack = await deleteTrack(id);
+    res.status(202).send(deletedTrack);
   } catch (error) {
     res.status(500).send(error);
   }
