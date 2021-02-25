@@ -13,7 +13,7 @@ let accessToken = '';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, OPTIONS');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
@@ -59,9 +59,15 @@ const getUserData = async () => {
   return data;
 }
 
-const deleteTrack = async (trackId) => {
-  const deletedTrack = await spotifyApi.removeFromMySavedTracks(trackId);
-  return deletedTrack;
+const deleteTrack = async (playlistId, uri) => {
+  await spotifyApi.removeTracksFromPlaylist(playlistId, [{uri}])
+  .then(function(data) {
+    console.log('Removed!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+  console.log('finish deleting');
+  return 'deleted!';
 }
   
 app.get('/login', (req, res) => {
@@ -150,7 +156,8 @@ app.get('/playlists/:id', async (req, res) => {
 app.delete('/playlists/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedTrack = await deleteTrack(id);
+    const { uri } = req.query;
+    const deletedTrack = await deleteTrack(id, uri);
     res.status(202).send(deletedTrack);
   } catch (error) {
     res.status(500).send(error);

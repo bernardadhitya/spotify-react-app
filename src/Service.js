@@ -32,6 +32,15 @@ export const fetchPlaylistTrack = (id) => {
   )
 };
 
+export const deleteTrack = (id, uri) => {
+  return (
+    axios.delete(`${USER_API}/playlists/${id}?uri=${uri}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => error.response)
+  )
+};
 
 export const login = async () => {
   return (

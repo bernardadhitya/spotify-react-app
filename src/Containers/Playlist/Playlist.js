@@ -1,48 +1,93 @@
 import React, { useState, useEffect } from 'react';
-import { fetchPlaylistTrack } from '../../Service';
-import { Grid } from '@material-ui/core';
+import { fetchPlaylistTrack, deleteTrack } from '../../Service';
+import { Backdrop, Fade, Grid, Modal } from '@material-ui/core';
 import './Playlist.css';
 import spotipuLogo from '../../Assets/spotipu-logo.png';
+import { DeleteOutline } from '@material-ui/icons';
 
 const Playlist = (props) => {
-  const { location: { state: { playlist } } } = props;
-  const { id, name, image, ownerName } = playlist;
+  const { location: { state: { userId, playlist } } } = props;
+  const { playlistId, name, image, ownerName, ownerId } = playlist;
   const [tracks, setTracks] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState('');
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     (async () => {
       try {
-        const fetchedPlaylistTrack = await fetchPlaylistTrack(id);
+        const fetchedPlaylistTrack = await fetchPlaylistTrack(playlistId);
         setTracks(fetchedPlaylistTrack);
       } catch (err) {
         console.log(err);
       }
     })();
-  }, []);
+  }, [refresh]);
+
+  const renderTrackCard = (id, name, images, artist, uri) => {
+    return ownerId === userId ? (
+      <Grid item
+        xs={12} sm={6} lg={4}
+      >
+        <div className='track-card-wrapper'>
+          <img src={images[0].url} alt={name} height={100}/>
+          <div style={{width: '30px'}}></div>
+          <div style={{marginRight: 'auto'}}>
+            <p style={{marginBottom: 0}}>{name}</p>
+            <p style={{marginTop: 0, color: '#1db954'}}>{artist}</p>
+          </div>
+          <div
+            className='delete-btn'
+            style={{marginRight: 10}}
+            onClick={() => handleOpenModal(id, uri)}
+          >
+            <DeleteOutline />
+          </div>
+        </div>
+      </Grid>
+    ) : (
+      <Grid item
+        xs={12} sm={6} lg={4}
+      >
+        <div className='track-card-wrapper'>
+          <img src={image} alt={name} height={100}/>
+          <div style={{width: '30px'}}></div>
+          <div>
+            <p style={{marginBottom: 0}}>{name}</p>
+            <p style={{marginTop: 0, color: '#1db954'}}>{artist}</p>
+          </div>
+        </div>
+      </Grid>
+    );
+  }
 
   const renderTrackList = () => {
     return tracks.map(track => {
-      const { name, album: { images }, artists } = track;
-      return (
-        <Grid item
-          xs={12} sm={6} lg={4}
-        >
-          <div className='track-card-wrapper'>
-            <img src={images[0].url} alt={name} height={100}/>
-            <div style={{width: '30px'}}></div>
-            <div>
-              <p style={{marginBottom: 0}}>{name}</p>
-              <p style={{marginTop: 0, color: '#1db954'}}>{artists[0].name}</p>
-            </div>
-          </div>
-        </Grid>
-      )
+      const { id, name, album: { images }, artists, uri } = track;
+      const artist = artists[0].name || '';
+      return renderTrackCard(id, name, images, artist, uri)
     })
   }
 
   const handleLogin = async () => {
     var win = window.open('http://localhost:8888/login', '_self');
     win.focus();
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  }
+
+  const handleOpenModal = (trackId, uri) => {
+    setSelectedTrack({id: trackId, uri});
+    setOpenModal(true);
+  }
+
+  const handleDeleteTrack = async () => {
+    const { uri } = selectedTrack
+    await deleteTrack(playlistId, uri);
+    setOpenModal(false);
+    setRefresh(refresh + 1);
   }
 
   return playlist ? (
@@ -73,6 +118,31 @@ const Playlist = (props) => {
           </Grid>
         </div>
       </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className='modal'
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div className='paper' style={{padding: 20}}>
+            <h2 id="transition-modal-title">Delete Track</h2>
+            <p id="transition-modal-description">
+              Are you sure you want to delete this track from playlist?
+            </p>
+            <div style={{height: 10}}></div>
+            <div className='confirm-delete-btn' onClick={() => handleDeleteTrack()}>
+              <h4>Yes, continue</h4>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
     </div>
   ) : (
     <div className='no-data-page'>

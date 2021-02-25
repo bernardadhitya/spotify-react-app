@@ -24,10 +24,19 @@ const Home = () => {
   }, [])
 
   const handlePlaylist = (playlist) => {
-    const { id, name, image, owner: { display_name: ownerName } } = playlist;
+    const { id: userId } = user;
+    const {
+      id: playlistId,
+      name,
+      image,
+      owner: {
+        id: ownerId,
+        display_name: ownerName
+      }
+    } = playlist;
     history.push({
       pathname: '/playlist',
-      state: { playlist: { id, name, image, ownerName } }
+      state: { userId, playlist: { playlistId, name, image, ownerName, ownerId } }
     })
   }
 
