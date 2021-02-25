@@ -1,6 +1,6 @@
 # Spotipu
 
-![](src/Assets/spotipu-logo.png)
+![](src/Assets/spotipu-cover.png)
 
 ### 💡 About the App
 Spotipu is a simple React app that utilize Spotify's API to show user's playlist and tracks.
