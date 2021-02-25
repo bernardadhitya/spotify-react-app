@@ -30,6 +30,11 @@ const Home = () => {
     })
   }
 
+  const handleLogin = async () => {
+    var win = window.open('http://localhost:8888/login', '_self');
+    win.focus();
+  }
+
   const renderPlaylistCards = () => {
     return playlists.map(playlist => {
       const { id, name, image, owner: { display_name: ownerName } } = playlist;
@@ -52,7 +57,7 @@ const Home = () => {
     })
   }
 
-  return (
+  return user ? (
     <div className='home-page'>
       <div style={{width: '100%'}}>
         <div style={{padding: 30}}>
@@ -70,6 +75,17 @@ const Home = () => {
           <Grid container spacing={2}>
             { renderPlaylistCards() }
           </Grid>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className='no-data-page'>
+      <div>
+        <img src={spotipuLogo} alt='logo' width='200px'/>
+        <h1>You have not logged in</h1>
+        <p>Please try logging in</p>
+        <div className='login-btn' onClick={() => handleLogin()}>
+          <h3>Login</h3>
         </div>
       </div>
     </div>

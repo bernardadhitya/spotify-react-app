@@ -14,3 +14,12 @@
   cursor: pointer;
   background-color: #121212;
 }
+
+.no-data-page{
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
