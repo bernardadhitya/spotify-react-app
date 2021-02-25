@@ -23,10 +23,11 @@ const Home = () => {
     })();
   }, [])
 
-  const handlePlaylist = (id) => {
+  const handlePlaylist = (playlist) => {
+    const { id, name, image, owner: { display_name: ownerName } } = playlist;
     history.push({
       pathname: '/playlist',
-      state: { id }
+      state: { playlist: { id, name, image, ownerName } }
     })
   }
 
@@ -37,13 +38,13 @@ const Home = () => {
 
   const renderPlaylistCards = () => {
     return playlists.map(playlist => {
-      const { id, name, image, owner: { display_name: ownerName } } = playlist;
+      const { name, image, owner: { display_name: ownerName } } = playlist;
       return (
         <>
           <Grid item
             xs={12} sm={6} lg={4}
           >
-            <div className='playlist-card-wrapper' onClick={() => handlePlaylist(id)}>
+            <div className='playlist-card-wrapper' onClick={() => handlePlaylist(playlist)}>
               <img src={image} alt={name} height={100}/>
               <div style={{width: '30px'}}></div>
               <div>
